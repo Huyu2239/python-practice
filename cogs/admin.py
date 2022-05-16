@@ -34,7 +34,7 @@ class Admin(commands.Cog):
                 self.bot.reload_extension(f"cogs.{cog[:-3]}")
 
     async def cog_check(self, ctx):
-        return ctx.author.id == 884799137067991051
+        return ctx.author.id == 637868010157244449 or ctx.guild.id in [968317738416238692]
 
     async def run_process(self, command):
         try:
