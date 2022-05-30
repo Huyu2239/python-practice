@@ -12,25 +12,23 @@ class Notice(commands.Cog):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
+        title, colour = None, discord.Embed.Empty
         if before.channel is None:
             if after.channel.id == 971743639464198215:
-                return await self.welcome(member)
+                title = f"{member.display_name}が参加しました。"
+                colour = discord.Colour.green()
         elif after.channel is None:
             if before.channel.id == 971743639464198215:
-                return await self.bye(member) 
+                title = f"{member.display_name}が退出しました。"
+                colour = discord.Colour.red()
+        else:
+            return
 
-    
-    async def welcome(self, member):
         channel = self.bot.get_channel(968500591837986866)
-        embed = discord.Embed(title=f"{member.display_name}が参加しました。", colour=discord.Colour.green(), img=member.avatar_url)
+        embed = discord.Embed(title=title, colour=colour)
+        embed.set_thumbnail(url=member.avatar_url)
         await channel.send(embed=embed)
 
-    async def bye(self, member):
-        channel = self.bot.get_channel(968500591837986866)
-        embed = discord.Embed(title=f"{member.display_name}が退出しました。", colour=discord.Colour.red(), img=member.avatar_url)
-        await channel.send(embed=embed)
-
-    
 
 def setup(bot):
     bot.add_cog(Notice(bot))
