@@ -8,13 +8,13 @@ class Mute(commands.Cog):
         self.ch_id = 971743639464198215
 
 
-    @commands.command()
+    @commands.command(name="m")
     async def mute(self, ctx):
         vc = self.bot.get_channel(self.ch_id)
         for member in vc.members:
             await member.edit(mute=True)
 
-    @commands.command()
+    @commands.command(name="u")
     async def unmute(self, ctx):
         vc = self.bot.get_channel(self.ch_id)
         for member in vc.members:
