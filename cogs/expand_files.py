@@ -10,18 +10,17 @@ class ExpandFiles(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.attachments is None:
+        if message.author.bot:
             return
         for attachment in message.attachments:
             if attachment.content_type != "application/pdf":
                 continue
             await attachment.save(f"{message.id}.pdf")
             images = pdf2image.convert_from_path(f"{message.id}.pdf")
-            fname = os.path.splitext(f"{message.id}.pdf")[0]
             for index, image in enumerate(images):
-                image.save(fname +"-"+ str(index+1) + '.png')
-                await message.channel.send(file=discord.File(fname +"-"+ str(index+1) + '.png'))
-                os.remove(fname +"-"+ str(index+1) + '.png')
+                image.save(f"{message.id}-{str(index+1)}.jpg")
+                await message.channel.send(file=discord.File(f"{message.id}-{str(index+1)}.jpg"))
+                os.remove(f"{message.id}-{str(index+1)}.jpg")
             os.remove(f"{message.id}.pdf")
 
 
